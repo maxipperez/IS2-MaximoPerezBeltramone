@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function EjemploEventos() {
   const [mensaje, setMensaje] = useState("Todavía no ocurrió ningún evento");
