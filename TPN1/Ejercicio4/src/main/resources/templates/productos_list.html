@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!-- 
+    xmlns:th="http://www.thymeleaf.org": Es un paso CRÍTICO. 
+    Declara el espacio de nombres de Thymeleaf, lo que nos permite utilizar todos los atributos especiales 
+    (que empiezan con "th:") para mezclar y procesar datos dinámicos provenientes de Java directamente en el HTML estático.
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos | MVC</title>
+    
+    <!-- Diseño limpio y moderno: Cargamos Bootstrap 5 desde un CDN (Red de Distribución de Contenidos) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap para lograr una estética estilo dashboard (como en templates de ThemeWagon) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: none; }
+        .table th { background-color: #212529; color: white; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card p-4">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="m-0 text-dark fw-bold"><i class="bi bi-box-seam me-2 text-primary"></i>Inventario de Productos</h2>
+                
+                <!-- 
+                    th:href: Modifica dinámicamente la ruta del hipervínculo en el servidor.
+                    La sintaxis @{/ruta} (Sintaxis de enlace/URL) genera rutas absolutas seguras basadas en 
+                    el contexto raíz de la aplicación Spring Boot, sin importar si cambiamos de dominio o puerto.
+                -->
+                <a th:href="@{/productos/crear}" class="btn btn-primary rounded-pill px-4">
+                    <i class="bi bi-plus-lg me-1"></i> Agregar Producto
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle shadow-sm">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio Unitario</th>
+                            <th>Stock Disponible</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 
+                            th:each="p : ${productos}": Bucle For-Each en Thymeleaf. 
+                            Itera sobre la lista llamada "productos" que pasamos desde el Controlador usando el ModelMap.
+                            Por cada producto en la lista, se replicará esta etiqueta <tr> y guardará el producto actual en 'p'.
+                        -->
+                        <tr th:each="p : ${productos}">
+                            
+                            <!-- 
+                                th:text: Renderiza contenido de texto. Reemplaza cualquier texto interno del <td> 
+                                por el resultado de evaluar la expresión. 
+                                ${p.nombre} (Sintaxis de variable) llama internamente al getter "p.getNombre()" de Java.
+                            -->
+                            <td class="fw-semibold" th:text="${p.nombre}">Nombre de Muestra</td>
+                            
+                            <td th:text="'$ ' + ${p.precio}">0.00</td>
+                            
+                            <td>
+                                <!-- th:classappend: Agrega una clase CSS si se cumple una condición, ideal para alertas de stock bajo -->
+                                <span class="badge" th:classappend="${p.stock < 10} ? 'bg-danger' : 'bg-success'" 
+                                      th:text="${p.stock} + ' unids.'">10 unids.</span>
+                            </td>
+                            
+                            <td class="text-center">
+                                <!-- Botón Editar: Construye la ruta /modificar/{id} incrustando la variable con doble guión bajo __ -->
+                                <a th:href="@{/productos/modificar/__${p.id}__}" class="btn btn-sm btn-outline-dark me-2">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                
+                                <!-- Botón Eliminar -->
+                                <a th:href="@{/productos/eliminar/__${p.id}__}" class="btn btn-sm btn-outline-danger" 
+                                   onclick="return confirm('¿Está completamente seguro que desea dar de baja este producto?');">
+                                    <i class="bi bi-trash3"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                        
+                        <!-- 
+                            th:if: Estructura condicional IF. 
+                            Si la lista está vacía (${productos.empty} evalúa a TRUE), se dibuja este <tr> en el HTML.
+                            Si la lista tiene elementos (FALSE), esta fila no existe.
+                        -->
+                        <tr th:if="${productos.empty}">
+                            <td colspan="4" class="text-center text-muted py-5">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                No hay productos activos en el sistema.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
