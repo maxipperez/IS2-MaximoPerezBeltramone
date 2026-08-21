@@ -5,7 +5,7 @@ Proyecto Spring Boot MVC basado en el DER suministrado. Incluye Web MVC, JPA, Va
 ## Ejecutar
 
 ```powershell
-cd 'TPN1/Ejercicio 4'
+cd 'TPN1/Ejercicio 4/Ejercicio 4h'
 mvn spring-boot:run
 ```
 
