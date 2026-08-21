@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Repositorio local dentro del proyecto: evita la ruta global C:\\.m2 sin permisos en este entorno. -->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>C:/Users/Maxi/Documents/Facultad/IS2/IS2-MaximoPerezBeltramone/TPN1/Ejercicio 4/Eejercicio 4h/.m2</localRepository>
+</settings>
