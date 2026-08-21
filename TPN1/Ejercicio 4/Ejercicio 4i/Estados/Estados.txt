@@ -1,0 +1,44 @@
+ESTADOS EN REACT
+
+¿Qué son los estados en React?
+
+Los estados son datos o valores que pertenecen a un componente y que pueden cambiar mientras el usuario utiliza la aplicación.
+
+Por ejemplo, un estado puede guardar:
+- La cantidad de veces que se presionó un botón.
+- El texto escrito en un formulario.
+- Si un menú está abierto o cerrado.
+- Si un usuario inició sesión.
+
+Cuando un estado cambia, React actualiza automáticamente la parte de la pantalla que utiliza ese estado.
+
+
+¿Cuáles son sus características?
+
+- Pueden cambiar durante la ejecución de la aplicación.
+- Cada componente puede tener sus propios estados.
+- Cuando cambia un estado, React vuelve a mostrar el componente con la información actualizada.
+- No se recomienda modificar el estado directamente.
+- Para crear y modificar estados se pueden utilizar Hooks como useState.
+
+
+¿Para qué sirven?
+
+Los estados sirven para guardar información que puede cambiar mientras el usuario interactúa con la aplicación.
+
+Gracias a los estados podemos crear páginas dinámicas que reaccionen a las acciones del usuario.
+
+Por ejemplo, se pueden utilizar para crear contadores, formularios, botones de mostrar u ocultar información, carritos de compra, entre otras cosas.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo se crea un contador.
+
+La variable "contador" guarda el valor actual del contador.
+
+La función "setContador" permite modificar ese valor.
+
+Cada vez que el usuario presiona el botón "Aumentar", se ejecuta setContador y se suma 1 al valor actual.
+
+Al modificarse el estado, React actualiza automáticamente el número que aparece en pantalla.

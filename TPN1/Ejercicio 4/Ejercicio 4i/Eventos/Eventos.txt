@@ -1,0 +1,45 @@
+EVENTOS EN REACT
+
+¿Qué son los eventos en React?
+
+Los eventos son acciones que ocurren dentro de una aplicación y que React puede detectar.
+
+Generalmente estos eventos son producidos por acciones realizadas por el usuario.
+
+Por ejemplo:
+- Hacer clic en un botón.
+- Escribir en un campo de texto.
+- Enviar un formulario.
+- Mover el mouse.
+- Presionar una tecla.
+
+React permite ejecutar una función cuando ocurre alguno de estos eventos.
+
+
+¿Cuáles son sus características?
+
+- Permiten detectar acciones realizadas por el usuario.
+- Se escriben utilizando nombres como onClick, onChange, onSubmit, entre otros.
+- Los nombres de los eventos utilizan camelCase. Por ejemplo, se utiliza onClick y no onclick.
+- A los eventos se les asigna una función que se ejecutará cuando ocurra la acción.
+- Se pueden combinar con estados para modificar información de la pantalla.
+
+
+¿Para qué sirven?
+
+Los eventos sirven para que una aplicación pueda responder a las acciones del usuario.
+
+Por ejemplo, permiten ejecutar una acción cuando una persona presiona un botón, escribe información en un formulario o selecciona alguna opción.
+
+Son fundamentales para crear aplicaciones interactivas.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo hay un botón que tiene asociado el evento onClick.
+
+Cuando el usuario hace clic en el botón, React ejecuta la función mostrarMensaje.
+
+La función muestra una ventana con el mensaje "¡Presionaste el botón!".
+
+De esta forma se puede observar cómo React detecta una acción del usuario y ejecuta una función como respuesta.
