@@ -1,0 +1,30 @@
+¿Qué es React?
+
+React es una biblioteca de JavaScript para crear interfaces de usuario, principalmente en aplicaciones web.
+
+¿Para qué sirve?
+
+Sirve para crear páginas web dinámicas e interactivas, actualizando solo las partes que cambian.
+
+- Características
+    - Usa componentes reutilizables.
+    - Utiliza JSX.
+    - Maneja estados y eventos.
+    - Permite crear interfaces dinámicas.
+    - Tiene una gran comunidad y muchas herramientas.
+
+- Ventajas
+    - Facilita la reutilización de código.
+    - Ayuda a organizar mejor una aplicación.
+    - Es rápido y muy utilizado.
+    - Tiene mucha documentación.
+
+- Desventajas
+    - Al principio puede ser difícil aprender JSX, estados y hooks.
+    - Para proyectos completos suele necesitar otras librerías.
+    - Su ecosistema cambia con frecuencia.
+
+¿Qué es React Bootstrap?
+
+React Bootstrap es una biblioteca que permite usar los componentes y estilos de Bootstrap directamente dentro de React.
+Por ejemplo, permite utilizar botones, formularios, menús, tarjetas y ventanas modales de forma sencilla.
