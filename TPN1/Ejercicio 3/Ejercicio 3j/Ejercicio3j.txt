@@ -1,0 +1,93 @@
+¿Qué es JSX en React? ¿Cuáles son sus características y para qué sirve?
+
+JSX es una sintaxis que permite escribir código parecido a HTML dentro de JavaScript.
+
+Características:
+- Se usa dentro de componentes React.
+- Permite combinar HTML y JavaScript.
+- Hace que el código de la interfaz sea más fácil de leer.
+
+¿Para qué sirve?
+Sirve para definir de forma simple qué elementos se mostrarán en pantalla.
+
+Ejemplo:
+
+function App() {
+  const nombre = "Juan";
+
+  return <h1>Hola {nombre}</h1>;
+}
+
+Explicación:
+El código muestra "Hola Juan". Las llaves {} permiten insertar valores de JavaScript dentro de JSX.
+
+
+¿Qué son los componentes en React? ¿Cuáles son sus características y para qué sirven?
+
+Los componentes son partes independientes y reutilizables de una interfaz.
+
+Características:
+- Se pueden reutilizar.
+- Pueden contener JSX.
+- Pueden recibir información.
+- Ayudan a organizar el código.
+
+¿Para qué sirven?
+Sirven para dividir una aplicación en partes más pequeñas, como botones, menús, tarjetas o formularios.
+
+Ejemplo:
+
+function Saludo() {
+  return <h2>Bienvenido a mi página</h2>;
+}
+
+function App() {
+  return <Saludo />;
+}
+
+Explicación:
+Saludo es un componente. Luego se utiliza dentro del componente App mediante <Saludo />.
+
+
+¿Qué son los props en React? ¿Cuáles son sus características y para qué sirven?
+
+Los props son datos que un componente recibe desde otro componente.
+
+Características:
+- Permiten pasar información entre componentes.
+- Pueden contener textos, números, objetos, etc.
+- No deben modificarse directamente dentro del componente que los recibe.
+
+¿Para qué sirven?
+Sirven para reutilizar un mismo componente mostrando información diferente.
+
+Ejemplo:
+
+function Saludo(props) {
+  return <h2>Hola {props.nombre}</h2>;
+}
+
+function App() {
+  return (
+    <>
+      <Saludo nombre="Juan" />
+      <Saludo nombre="Ana" />
+    </>
+  );
+}
+
+Explicación:
+Se utiliza el mismo componente Saludo, pero se le envían distintos nombres mediante props.
+
+
+¿Qué es Firebase? ¿Cuáles son sus características?
+
+Firebase es una plataforma de Google que ofrece servicios para desarrollar aplicaciones web y móviles.
+
+Características:
+- Base de datos en la nube.
+- Sistema de autenticación de usuarios.
+- Almacenamiento de archivos.
+- Hosting para aplicaciones web.
+- Permite actualizar datos en tiempo real.
+- Se puede integrar fácilmente con React.

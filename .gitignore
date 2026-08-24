@@ -1,1 +1,64 @@
-/target
+# ================================================================
+# Java y Maven / Gradle
+# ================================================================
+**/target/
+**/build/
+**/out/
+**/.m2/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# ================================================================
+# IDEs y editores
+# ================================================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.factorypath
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+.vscode/
+
+# ================================================================
+# Sistema operativo
+# ================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================================================
+# Configuración local y secretos
+# No se ignora persistence.xml: forma parte del proyecto y debe subirse.
+# Guardar credenciales locales en alguno de estos archivos.
+# ================================================================
+.env
+.env.*
+!.env.example
+application-local.properties
+application-dev.properties
+persistence-local.xml
+secrets.properties
+credentials.properties
+
+# ================================================================
+# Datos temporales de bases locales / Docker
+# No se ignoran scripts .sql porque suelen ser parte del trabajo.
+# ================================================================
+mysql-data/
+mysql_data/
+db-data/
+db_data/
+postgres-data/
+postgres_data/
+*.mv.db
+*.trace.db
