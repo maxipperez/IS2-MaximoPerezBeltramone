@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Clientes')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Clientes</h1>
+              <p class="mb-0">Clientes asociados a las ventas</p>
+            </div>
+            <div>
+              <a th:href="@{/clientes/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i> Nuevo cliente</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>Apellido y nombre</th>
+              <th>DNI</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="c : ${clientes}">
+              <td class="fw-semibold" th:text="|${c.apellido}, ${c.nombre}|"></td>
+              <td th:text="${c.dni}"></td>
+              <td th:text="${c.telefono}"></td>
+              <td>
+                <a th:href="@{/clientes/{id}/editar(id=${c.id})}" title="Editar"><i class="ti ti-edit"></i></a>
+                <form class="d-inline" th:action="@{/clientes/{id}/eliminar(id=${c.id})}" method="post"
+                  onsubmit="return confirm('¿Eliminar el cliente?');">
+                  <button class="btn btn-link link-danger p-0 ms-2" title="Eliminar"><i class="ti ti-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(clientes)}">
+              <td colspan="4" class="text-center text-secondary py-4">No hay clientes cargados</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

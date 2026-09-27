@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(titulo)">
+  <meta charset="UTF-8" />
+  <title th:text="${titulo} + ' - TechSales Enterprise'">TechSales Enterprise</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" th:href="@{/assets/images/favicon-32x32.png}">
+  <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon-16x16.png}">
+  <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+</head>
+
+<body>
+  <th:block th:fragment="navegacion">
+    <div id="overlay" class="overlay"></div>
+    <nav id="topbar" class="navbar bg-white border-bottom fixed-top topbar px-3">
+      <button id="toggleBtn" class="d-none d-lg-inline-flex btn btn-light btn-icon btn-sm ">
+        <i class="ti ti-layout-sidebar-left-expand"></i>
+      </button>
+
+      <button id="mobileBtn" class="btn btn-light btn-icon btn-sm d-lg-none me-2">
+        <i class="ti ti-layout-sidebar-left-expand"></i>
+      </button>
+      <div>
+        <ul class="list-unstyled d-flex align-items-center mb-0 gap-1">
+          <li>
+            <a th:href="@{/ventas/nuevo}" class="btn btn-primary btn-sm"><i class="ti ti-shopping-cart me-1"></i>Nueva venta</a>
+          </li>
+          <li class="ms-3 dropdown">
+            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img th:src="@{/assets/images/avatar-1.jpg}" alt="" class="avatar avatar-sm rounded-circle" />
+            </a>
+            <div class="dropdown-menu dropdown-menu-end p-0" style="min-width: 220px;">
+              <div>
+                <div class="d-flex gap-3 align-items-center border-dashed border-bottom px-3 py-3">
+                  <img th:src="@{/assets/images/avatar-1.jpg}" alt="" class="avatar avatar-md rounded-circle" />
+                  <div>
+                    <h4 class="mb-0 small" th:text="${usuarioSesion.nombreCompleto}">Usuario</h4>
+                    <p class="mb-0 small" th:text="${usuarioSesion.mail}">mail</p>
+                    <span class="badge bg-primary-subtle text-primary mt-1" th:text="${usuarioSesion.rol}">ROL</span>
+                  </div>
+                </div>
+                <div class="p-3 d-flex flex-column gap-1 small lh-lg">
+                  <a th:href="@{/}"><span>Catálogo</span></a>
+                  <a th:href="@{/ventas}"><span>Mis ventas</span></a>
+                  <form th:action="@{/logout}" method="post" class="m-0">
+                    <button class="btn btn-link p-0 small link-danger text-decoration-none">Cerrar sesión</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <aside id="sidebar" class="sidebar">
+      <div class="logo-area">
+        <a th:href="@{/}" class="d-inline-flex align-items-center"><img th:src="@{/assets/images/logo-icon.svg}" alt="" width="24">
+          <span class="logo-text ms-2 fw-semibold text-dark">TechSales</span>
+        </a>
+      </div>
+      <ul class="nav flex-column">
+        <li class="px-4 py-2"><small class="nav-text">Ventas</small></li>
+        <li><a class="nav-link" th:classappend="${rutaActual == '/'} ? 'active'" th:href="@{/}"><i class="ti ti-building-store"></i><span
+              class="nav-text">Catálogo</span></a></li>
+        <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/ventas')} ? 'active'" th:href="@{/ventas}"><i class="ti ti-receipt"></i><span
+              class="nav-text">Ventas</span></a></li>
+        <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/clientes')} ? 'active'" th:href="@{/clientes}"><i class="ti ti-users"></i><span
+              class="nav-text">Clientes</span></a></li>
+
+        <th:block th:if="${usuarioSesion.administrador}">
+          <li class="px-4 pt-4 pb-2"><small class="nav-text">Administración de Sistema</small></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/stock')} ? 'active'" th:href="@{/stock}"><i class="ti ti-box-seam"></i><span
+                class="nav-text">Stock</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/ordenes')} ? 'active'" th:href="@{/ordenes}"><i class="ti ti-shopping-cart"></i><span
+                class="nav-text">Órdenes de Compra</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/productos')} ? 'active'" th:href="@{/productos}"><i class="ti ti-device-laptop"></i><span
+                class="nav-text">Productos</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/categorias')} ? 'active'" th:href="@{/categorias}"><i class="ti ti-category"></i><span
+                class="nav-text">Categorías</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/proveedores')} ? 'active'" th:href="@{/proveedores}"><i class="ti ti-truck"></i><span
+                class="nav-text">Proveedores</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/facturas')} ? 'active'" th:href="@{/facturas}"><i class="ti ti-file-invoice"></i><span
+                class="nav-text">Facturas</span></a></li>
+          <li><a class="nav-link" th:classappend="${#strings.startsWith(rutaActual, '/usuarios')} ? 'active'" th:href="@{/usuarios}"><i class="ti ti-user-cog"></i><span
+                class="nav-text">Usuarios</span></a></li>
+        </th:block>
+
+        <li class="px-4 pt-4 pb-2"><small class="nav-text">Cuenta</small></li>
+        <li>
+          <form th:action="@{/logout}" method="post" class="m-0">
+            <button class="nav-link border-0 bg-transparent w-100 text-start"><i class="ti ti-logout"></i><span class="nav-text">Cerrar sesión</span></button>
+          </form>
+        </li>
+      </ul>
+    </aside>
+  </th:block>
+
+  <th:block th:fragment="alertas">
+    <div th:if="${exito}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <span th:text="${exito}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <span th:text="${error}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  </th:block>
+
+  <div th:fragment="pie" class="row">
+    <div class="col-12">
+      <footer class="text-center py-2 mt-6 text-secondary ">
+        <p class="mb-0">TechSales Enterprise · Plantilla InApp Inventory Dashboard. Developed by <a href="https://codescandy.com/" target="_blank" class="text-primary">CodesCandy</a> • Distributed by <a href="https://themewagon.com/" target="_blank" class="text-primary">ThemeWagon</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <th:block th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/assets/js/sidebar.js}"></script>
+  </th:block>
+</body>
+
+</html>

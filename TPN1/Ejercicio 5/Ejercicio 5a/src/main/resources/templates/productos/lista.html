@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Productos')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Productos</h1>
+              <p class="mb-0">Administrá el catálogo de productos de tecnología</p>
+            </div>
+            <div>
+              <a th:href="@{/productos/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i> Nuevo producto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="row">
+        <div class="col-12">
+          <form th:action="@{/productos}" method="get" class="d-flex gap-2 mb-3 flex-wrap">
+            <input type="text" name="texto" th:value="${texto}" class="form-control" placeholder="Buscar productos..." style="max-width: 250px;">
+            <select name="categoriaId" class="form-select" style="max-width: 220px;">
+              <option value="">Todas las categorías</option>
+              <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}" th:selected="${c.id == categoriaId}"></option>
+            </select>
+            <button class="btn btn-outline-secondary"><i class="ti ti-filter"></i> Filtrar</button>
+          </form>
+
+          <div class="card table-responsive">
+            <table class="table mb-0 text-nowrap table-hover">
+              <thead class="table-light border-light">
+                <tr>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Precio unitario</th>
+                  <th>Stock</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="align-middle" th:each="p : ${productos}">
+                  <td>
+                    <span class="fw-semibold" th:text="${p.nombre}"></span>
+                    <div class="small text-secondary text-truncate" style="max-width: 320px;" th:text="${p.descripcion}"></div>
+                  </td>
+                  <td th:text="${p.categoriaNombre != null ? p.categoriaNombre : 'Sin categoría'}"></td>
+                  <td th:text="${'$' + #numbers.formatDecimal(p.precioUnitario, 1, 'POINT', 2, 'COMMA')}"></td>
+                  <td th:text="${p.stock}"></td>
+                  <td>
+                    <span class="badge"
+                      th:classappend="${p.estadoStock == 'Óptimo'} ? 'bg-success-subtle text-success' : (${p.estadoStock == 'Stock bajo'} ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger')"
+                      th:text="${p.estadoStock}"></span>
+                  </td>
+                  <td>
+                    <a th:href="@{/productos/{id}/editar(id=${p.id})}" title="Editar"><i class="ti ti-edit"></i></a>
+                    <form class="d-inline" th:action="@{/productos/{id}/eliminar(id=${p.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar el producto?');">
+                      <button class="btn btn-link link-danger p-0 ms-2" title="Eliminar"><i class="ti ti-trash"></i></button>
+                    </form>
+                  </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(productos)}">
+                  <td colspan="6" class="text-center text-secondary py-4">No se encontraron productos para el filtro seleccionado</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="6" class="border-bottom-0" th:text="|Mostrando ${#lists.size(productos)} productos|"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Órdenes de Compra')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Órdenes de Compra <span class="badge bg-light text-dark fs-6 align-middle" th:text="|${#lists.size(ordenes)} Elementos|"></span></h1>
+              <p class="mb-0">Compras a proveedores mayoristas para reponer stock</p>
+            </div>
+            <div>
+              <a th:href="@{/ordenes/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i> Nueva orden</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>ID</th>
+              <th>Compra</th>
+              <th>Proveedor</th>
+              <th>Fecha de creación</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="o, it : ${ordenes}">
+              <td th:text="${it.count}"></td>
+              <td class="fw-semibold" th:text="${o.codigo}"></td>
+              <td th:text="${o.proveedorRazonSocial}"></td>
+              <td th:text="${#temporals.format(o.fecha, 'dd.MM.yyyy')}"></td>
+              <td th:text="${'$' + #numbers.formatDecimal(o.total, 1, 'POINT', 2, 'COMMA')}"></td>
+              <td th:text="${o.cantidadTotal}"></td>
+              <td>
+                <span class="badge"
+                  th:classappend="${o.estado == 'PENDIENTE'} ? 'bg-warning-subtle text-warning' : (${o.estado == 'CONFIRMADA'} ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger')"
+                  th:text="${o.estado}"></span>
+              </td>
+              <td>
+                <a th:href="@{/ordenes/{id}(id=${o.id})}" title="Ver detalle"><i class="ti ti-eye"></i></a>
+                <th:block th:if="${o.pendiente}">
+                  <a th:href="@{/ordenes/{id}/editar(id=${o.id})}" class="ms-2" title="Editar"><i class="ti ti-edit"></i></a>
+                  <form class="d-inline" th:action="@{/ordenes/{id}/cancelar(id=${o.id})}" method="post"
+                    onsubmit="return confirm('¿Cancelar la orden de compra?');">
+                    <button class="btn btn-link link-danger p-0 ms-2" title="Eliminar"><i class="ti ti-trash"></i></button>
+                  </form>
+                </th:block>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(ordenes)}">
+              <td colspan="8" class="text-center text-secondary py-4">No hay órdenes de compra registradas</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="8" class="border-bottom-0" th:text="|Mostrando 1 a ${#lists.size(ordenes)} de ${#lists.size(ordenes)} registros|"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>
