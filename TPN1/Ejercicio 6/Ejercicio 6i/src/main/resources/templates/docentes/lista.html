@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Docentes')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('docentes')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Docentes', 'Docentes registrados en el sistema')}"></div>
+
+    <div class="table-card-custom">
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Apellido y nombre</th>
+              <th>Sexo</th>
+              <th>Fecha de nacimiento</th>
+              <th>Correo (usuario)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="d : ${docentes}">
+              <td class="table-user-name" th:text="|${d.apellido}, ${d.nombre}|"></td>
+              <td th:text="${d.sexo}"></td>
+              <td th:text="${#temporals.format(d.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+              <td th:text="${d.mail}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Cambiar contraseña')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('clave')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Cambiar contraseña', 'Ingresá tu contraseña actual y la nueva')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4" style="max-width: 520px;">
+      <form th:action="@{/cambiar-clave}" th:object="${cambio}" method="post">
+        <div class="mb-3">
+          <label for="actual" class="form-label-custom">Contraseña actual</label>
+          <input type="password" id="actual" class="form-control-custom" th:field="*{actual}" required>
+        </div>
+        <div class="mb-3">
+          <label for="nueva" class="form-label-custom">Nueva contraseña</label>
+          <input type="password" id="nueva" class="form-control-custom" th:field="*{nueva}" minlength="6" required>
+        </div>
+        <div class="mb-3">
+          <label for="repetida" class="form-label-custom">Repetir nueva contraseña</label>
+          <input type="password" id="repetida" class="form-control-custom" th:field="*{repetida}" minlength="6" required>
+        </div>
+        <button type="submit" class="btn-custom btn-custom-primary">Cambiar contraseña</button>
+      </form>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Materias')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('materias')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Materias', 'Materias de cada aula y su docente a cargo')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Listado de materias</h5>
+        <div class="table-filter-group">
+          <a th:href="@{/materias/nuevo}" class="btn-custom btn-custom-primary"><i class="bi bi-plus-lg"></i> Nueva materia</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>Grado y aula</th>
+              <th>Docente</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="m : ${materias}">
+              <td class="table-user-name" th:text="${m.nombre}"></td>
+              <td th:text="${m.aula}"></td>
+              <td th:text="${m.docente}"></td>
+              <td>
+                <div class="d-flex justify-content-center gap-1">
+                  <a th:href="@{/materias/{id}/editar(id=${m.id})}" class="table-btn-action" title="Editar"><i class="bi bi-pencil"></i></a>
+                  <form th:action="@{/materias/{id}/eliminar(id=${m.id})}" method="post" onsubmit="return confirm('¿Eliminar la materia?');">
+                    <button type="submit" class="table-btn-action delete" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(materias)}">
+              <td colspan="4" class="text-center">No hay materias cargadas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

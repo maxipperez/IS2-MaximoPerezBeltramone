@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Materia')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('materias')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado(${materia.id == null ? 'Nueva materia' : 'Editar materia'}, 'Asociá la materia a un aula y a un docente')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4">
+      <form th:action="@{/materias}" th:object="${materia}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="nombre" class="form-label-custom">Materia</label>
+            <input type="text" id="nombre" class="form-control-custom" th:field="*{nombre}" placeholder="Ej: Matemática" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="aulaId" class="form-label-custom">Grado y aula</label>
+            <select id="aulaId" class="form-select-custom" th:field="*{aulaId}" required>
+              <option value="">Seleccioná un aula</option>
+              <option th:each="a : ${aulas}" th:value="${a.id}" th:text="|${a.grado} - ${a.nombre}|"></option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="docenteId" class="form-label-custom">Docente</label>
+            <select id="docenteId" class="form-select-custom" th:field="*{docenteId}" required>
+              <option value="">Seleccioná un docente</option>
+              <option th:each="d : ${docentes}" th:value="${d.id}" th:text="|${d.apellido}, ${d.nombre}|"></option>
+            </select>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn-custom btn-custom-primary">Guardar</button>
+          <a th:href="@{/materias}" class="btn-custom btn-custom-light">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

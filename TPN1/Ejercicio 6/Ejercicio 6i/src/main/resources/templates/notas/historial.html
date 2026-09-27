@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Historial de nota')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('notas')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Historial de la nota', |${nota.alumno} - ${nota.materia}|)}"></div>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Auditoría (Hibernate Envers)</h5>
+        <div class="table-filter-group">
+          <a th:href="@{/notas}" class="btn-custom btn-custom-light">Volver</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Revisión</th>
+              <th>Fecha y hora</th>
+              <th>Operación</th>
+              <th>Nota</th>
+              <th>Fecha de la nota</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="r : ${revisiones}">
+              <td class="table-order-id" th:text="|#${r.numero}|"></td>
+              <td th:text="${#temporals.format(r.fecha, 'dd/MM/yyyy HH:mm:ss')}"></td>
+              <td>
+                <span class="badge-table" th:classappend="${r.tipo == 'INSERT'} ? 'success' : (${r.tipo == 'UPDATE'} ? 'pending' : 'failed')"
+                  th:text="${r.tipo == 'INSERT' ? 'Alta' : (r.tipo == 'UPDATE' ? 'Modificación' : 'Baja')}"></span>
+              </td>
+              <td th:text="${r.nota.valor}"></td>
+              <td th:text="${#temporals.format(r.nota.fecha, 'dd/MM/yyyy')}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

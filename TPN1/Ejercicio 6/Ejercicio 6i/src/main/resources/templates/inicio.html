@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('inicio')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Inicio', 'Resumen general del colegio')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-xl-3">
+        <a th:href="@{/alumnos}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Alumnos</span>
+            <div class="stat-value" th:text="${alumnos}">0</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a th:href="@{/aulas}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Aulas</span>
+            <div class="stat-value" th:text="${aulas}">0</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a th:href="@{/materias}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Materias</span>
+            <div class="stat-value" th:text="${materias}">0</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a th:href="@{/docentes}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Docentes</span>
+            <div class="stat-value" th:text="${docentes}">0</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>
