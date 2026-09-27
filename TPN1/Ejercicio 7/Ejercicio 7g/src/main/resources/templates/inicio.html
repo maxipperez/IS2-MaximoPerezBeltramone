@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('inicio')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Inicio', 'Resumen general del club')}"></div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <a th:href="@{/socios}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Socios</span>
+            <div class="stat-value" th:text="${socios}">0</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a th:href="@{/accesos}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Personas dentro del club</span>
+            <div class="stat-value" th:text="${presentes}">0</div>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a th:href="@{/pagos}" class="text-decoration-none">
+          <div class="card card-stat p-4">
+            <span class="stat-label">Cuotas cobradas</span>
+            <div class="stat-value" th:text="${pagos}">0</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Socios')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('socios')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Socios', 'Socios titulares y su grupo familiar')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Listado de socios</h5>
+        <div class="table-filter-group">
+          <a th:href="@{/socios/nuevo}" class="btn-custom btn-custom-primary"><i class="bi bi-plus-lg"></i> Nuevo socio</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>N° socio</th>
+              <th>Socio</th>
+              <th>DNI</th>
+              <th>Grupo familiar</th>
+              <th>Alta</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="s : ${socios}">
+              <td class="table-order-id" th:text="${s.nroSocio}"></td>
+              <td>
+                <div class="table-user-cell">
+                  <img th:src="@{/fotos/{id}(id=${s.id})}" alt="Foto" class="table-user-avatar">
+                  <div class="table-user-name" th:text="|${s.apellido}, ${s.nombre}|"></div>
+                </div>
+              </td>
+              <td th:text="${s.dni}"></td>
+              <td th:text="${s.grupo}"></td>
+              <td th:text="${#temporals.format(s.fechaAlta, 'dd/MM/yyyy')}"></td>
+              <td>
+                <div class="d-flex justify-content-center gap-1">
+                  <a th:href="@{/socios/{id}(id=${s.id})}" class="table-btn-action" title="Ver ficha"><i class="bi bi-eye"></i></a>
+                  <a th:href="@{/socios/{id}/editar(id=${s.id})}" class="table-btn-action" title="Editar"><i class="bi bi-pencil"></i></a>
+                  <form th:action="@{/socios/{id}/eliminar(id=${s.id})}" method="post" onsubmit="return confirm('¿Eliminar el socio?');">
+                    <button type="submit" class="table-btn-action delete" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(socios)}">
+              <td colspan="6" class="text-center">No hay socios cargados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

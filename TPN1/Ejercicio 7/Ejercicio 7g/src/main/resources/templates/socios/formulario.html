@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Socio')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('socios')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado(${socio.id == null ? 'Nuevo socio' : 'Editar socio'}, 'Datos personales y foto del rostro')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4">
+      <form th:action="@{/socios}" th:object="${socio}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="nombre" class="form-label-custom">Nombre</label>
+            <input type="text" id="nombre" class="form-control-custom" th:field="*{nombre}" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="apellido" class="form-label-custom">Apellido</label>
+            <input type="text" id="apellido" class="form-control-custom" th:field="*{apellido}" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="dni" class="form-label-custom">DNI</label>
+            <input type="text" id="dni" class="form-control-custom" th:field="*{dni}" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="foto" class="form-label-custom" th:text="${socio.id == null ? 'Foto del rostro (JPG o PNG)' : 'Nueva foto del rostro (opcional)'}"></label>
+            <input type="file" id="foto" name="foto" class="form-control-custom" accept="image/png,image/jpeg" th:required="${socio.id == null}">
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn-custom btn-custom-primary">Guardar</button>
+          <a th:href="@{/socios}" class="btn-custom btn-custom-light">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

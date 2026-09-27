@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Entradas y salidas')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('accesos')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Entradas y salidas', 'Registro del horario de entrada y salida del club')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4 mb-4">
+      <form th:action="@{/accesos/entrada}" method="post" class="row g-3 align-items-end">
+        <div class="col-md-6">
+          <label for="personaId" class="form-label-custom">Persona</label>
+          <select id="personaId" name="personaId" class="form-select-custom" required>
+            <option value="">Seleccioná un socio o familiar</option>
+            <option th:each="p : ${personas}" th:value="${p.id}" th:text="|${p.nombre} - DNI ${p.dni} (${p.tipo})|"></option>
+          </select>
+        </div>
+        <div class="col-md-6 d-flex gap-2">
+          <button type="submit" class="btn-custom btn-custom-primary" th:formaction="@{/accesos/entrada}"><i class="bi bi-box-arrow-in-right"></i> Registrar entrada</button>
+          <button type="submit" class="btn-custom btn-custom-light" th:formaction="@{/accesos/salida}"><i class="bi bi-box-arrow-right"></i> Registrar salida</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-card-custom mb-4">
+      <div class="table-header-control">
+        <h5 class="mb-0" th:text="|Dentro del club (${#lists.size(presentes)})|"></h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Tipo</th>
+              <th>Hora de entrada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="a : ${presentes}">
+              <td>
+                <div class="table-user-cell">
+                  <img th:src="@{/fotos/{id}(id=${a.personaId})}" alt="Foto" class="table-user-avatar">
+                  <div class="table-user-name" th:text="${a.persona}"></div>
+                </div>
+              </td>
+              <td th:text="${a.tipo}"></td>
+              <td th:text="${#temporals.format(a.entrada, 'dd/MM/yyyy HH:mm')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(presentes)}">
+              <td colspan="3" class="text-center">No hay personas dentro del club.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Últimos registros</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Persona</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>Permanencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="a : ${ultimos}">
+              <td class="table-user-name" th:text="${a.persona}"></td>
+              <td th:text="${#temporals.format(a.entrada, 'dd/MM/yyyy HH:mm')}"></td>
+              <td>
+                <span th:if="${a.salida != null}" th:text="${#temporals.format(a.salida, 'dd/MM/yyyy HH:mm')}"></span>
+                <span th:if="${a.salida == null}" class="badge-table pending">Dentro</span>
+              </td>
+              <td th:text="${a.minutos != null ? a.minutos + ' min' : '-'}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

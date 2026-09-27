@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Pago de cuotas')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('pagos')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Pago de cuotas', 'Registro del pago mensual de la cuota de cada familia')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4 mb-4">
+      <form th:action="@{/pagos}" th:object="${pago}" method="post" class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label for="grupoId" class="form-label-custom">Familia</label>
+          <select id="grupoId" class="form-select-custom" th:field="*{grupoId}" required>
+            <option value="">Seleccioná una familia</option>
+            <option th:each="g : ${grupos}" th:value="${g.grupoId}" th:text="${g.grupo}"></option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label for="periodo" class="form-label-custom">Período</label>
+          <input type="month" id="periodo" class="form-control-custom" th:field="*{periodo}" required>
+        </div>
+        <div class="col-md-2">
+          <label for="monto" class="form-label-custom">Monto</label>
+          <input type="number" id="monto" class="form-control-custom" th:field="*{monto}" min="1" step="0.01" required>
+        </div>
+        <div class="col-md-2">
+          <label for="medioPago" class="form-label-custom">Medio de pago</label>
+          <select id="medioPago" class="form-select-custom" th:field="*{medioPago}" required>
+            <option th:each="m : ${medios}" th:value="${m}" th:text="${m.etiqueta}"></option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn-custom btn-custom-primary w-100">Registrar pago</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Pagos registrados</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Familia</th>
+              <th>Período</th>
+              <th>Fecha de pago</th>
+              <th>Medio de pago</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="p : ${pagos}">
+              <td class="table-user-name" th:text="${p.grupo}"></td>
+              <td class="table-order-id" th:text="${p.periodo}"></td>
+              <td th:text="${#temporals.format(p.fechaPago, 'dd/MM/yyyy')}"></td>
+              <td><span class="badge-table success" th:text="${p.medioPago.etiqueta}"></span></td>
+              <td class="table-amount" th:text="${'$' + #numbers.formatDecimal(p.monto, 1, 'POINT', 2, 'COMMA')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pagos)}">
+              <td colspan="5" class="text-center">No hay pagos registrados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>
