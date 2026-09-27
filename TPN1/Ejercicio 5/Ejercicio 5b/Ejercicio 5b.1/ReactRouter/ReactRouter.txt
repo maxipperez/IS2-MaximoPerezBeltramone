@@ -1,0 +1,69 @@
+REACT ROUTER
+
+¿Qué es React Router?
+
+React Router es una biblioteca que permite crear diferentes páginas dentro de una aplicación de React.
+
+Normalmente, una aplicación de React tiene un solo archivo HTML. React Router permite mostrar distintos componentes según la dirección (URL) que aparece en el navegador.
+
+Por ejemplo:
+- En la dirección "/" se puede mostrar la página de inicio.
+- En la dirección "/productos" se puede mostrar un listado de productos.
+- En la dirección "/contacto" se puede mostrar un formulario de contacto.
+
+Todo esto ocurre sin tener que recargar la página completa.
+
+
+¿Cuáles son sus características?
+
+- Se instala como un paquete aparte llamado react-router-dom.
+- Permite asociar una dirección con un componente.
+- Cambia de página sin recargar el navegador, por eso la aplicación es más rápida.
+- Permite utilizar los botones de "atrás" y "adelante" del navegador.
+- Permite enviar información en la dirección, como el id de un producto.
+- Permite mostrar una página de error cuando la dirección no existe.
+
+Algunos de sus componentes y Hooks más utilizados son:
+
+BrowserRouter:
+Envuelve la aplicación y permite utilizar las rutas.
+
+Routes y Route:
+Indican qué componente se debe mostrar en cada dirección.
+
+Link:
+Permite crear enlaces para moverse entre páginas sin recargar la aplicación.
+
+useParams:
+Permite obtener los datos que vienen en la dirección, por ejemplo el id.
+
+useNavigate:
+Permite cambiar de página desde una función, por ejemplo al presionar un botón.
+
+
+¿Para qué sirve?
+
+React Router sirve para organizar una aplicación en distintas páginas o secciones.
+
+Gracias a React Router, el usuario puede moverse por la aplicación como si fuera una página web con varias pantallas, pero sin perder la velocidad de una aplicación de React.
+
+Por ejemplo, se puede utilizar para crear un menú de navegación, una página de detalle de un producto o una página de inicio de sesión.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo se crea una pequeña aplicación con tres secciones: Inicio, Productos y Contacto.
+
+BrowserRouter envuelve todo el ejemplo para poder utilizar las rutas.
+
+Con los componentes Link se crea un menú. Al hacer clic en cada opción, cambia la dirección del navegador y se muestra otro componente, sin recargar la página.
+
+Dentro de Routes se define qué componente se muestra en cada dirección.
+
+En la sección Productos hay un listado. Al hacer clic en un producto se va a la dirección "/productos/1", "/productos/2", etc.
+
+El componente DetalleProducto utiliza useParams para obtener el id que viene en la dirección y mostrar la información del producto seleccionado.
+
+Además, tiene un botón "Volver" que utiliza useNavigate para regresar al listado de productos.
+
+Por último, la ruta con "*" muestra un mensaje cuando el usuario ingresa a una dirección que no existe.
