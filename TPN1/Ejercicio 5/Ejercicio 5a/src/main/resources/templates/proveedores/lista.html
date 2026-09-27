@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Proveedores')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Proveedores</h1>
+              <p class="mb-0">Proveedores mayoristas a los que se emiten órdenes de compra</p>
+            </div>
+            <div>
+              <a th:href="@{/proveedores/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i> Nuevo proveedor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>Razón social</th>
+              <th>CUIT</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="p : ${proveedores}">
+              <td class="fw-semibold" th:text="${p.razonSocial}"></td>
+              <td th:text="${p.cuit}"></td>
+              <td th:text="${p.telefono}"></td>
+              <td>
+                <span th:if="${p.activo}" class="badge bg-success-subtle text-success">Activo</span>
+                <span th:unless="${p.activo}" class="badge bg-danger-subtle text-danger">Inactivo</span>
+              </td>
+              <td>
+                <a th:href="@{/proveedores/{id}/editar(id=${p.id})}" title="Editar"><i class="ti ti-edit"></i></a>
+                <form th:if="${p.activo}" class="d-inline" th:action="@{/proveedores/{id}/eliminar(id=${p.id})}" method="post"
+                  onsubmit="return confirm('¿Dar de baja al proveedor?');">
+                  <button class="btn btn-link link-danger p-0 ms-2" title="Dar de baja"><i class="ti ti-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(proveedores)}">
+              <td colspan="5" class="text-center text-secondary py-4">No hay proveedores cargados</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

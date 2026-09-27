@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Nueva venta')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+              <h1 class="fs-3 mb-1">Nueva venta</h1>
+              <p class="mb-0">Seleccioná el cliente y la cantidad de cada producto vendido</p>
+            </div>
+            <div class="d-flex gap-2">
+              <a th:href="@{/clientes/nuevo}" class="btn btn-outline-primary"><i class="ti ti-user-plus"></i> Nuevo cliente</a>
+              <a th:href="@{/ventas}" class="btn btn-primary">Volver al listado</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <form th:action="@{/ventas}" th:object="${venta}" method="post">
+        <div class="card mb-4">
+          <div class="card-body p-4">
+            <label for="clienteId" class="form-label">Cliente *</label>
+            <select class="form-select" id="clienteId" th:field="*{clienteId}" style="max-width: 420px;">
+              <option value="">Seleccioná un cliente</option>
+              <option th:each="c : ${clientes}" th:value="${c.id}" th:text="|${c.apellido}, ${c.nombre} (DNI ${c.dni})|"></option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card table-responsive mb-4">
+          <table class="table mb-0 text-nowrap table-hover">
+            <thead class="table-light border-light">
+              <tr>
+                <th>Producto</th>
+                <th>Precio unitario</th>
+                <th>Stock disponible</th>
+                <th style="width: 160px;">Cantidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="align-middle" th:each="item, it : *{items}">
+                <td>
+                  <input type="hidden" th:field="*{items[__${it.index}__].productoId}">
+                  <span th:text="${item.productoNombre}"></span>
+                </td>
+                <td th:text="${'$' + #numbers.formatDecimal(item.precioUnitario, 1, 'POINT', 2, 'COMMA')}"></td>
+                <td th:text="${item.stockDisponible}" th:classappend="${item.stockDisponible == 0} ? 'text-danger'"></td>
+                <td><input type="number" min="0" class="form-control form-control-sm" th:field="*{items[__${it.index}__].cantidad}" placeholder="0"></td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(venta.items)}">
+                <td colspan="4" class="text-center text-secondary py-4">No hay productos activos para vender</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary"><i class="ti ti-receipt"></i> Confirmar venta</button>
+          <a th:href="@{/}" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

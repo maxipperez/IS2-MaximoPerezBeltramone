@@ -1,0 +1,50 @@
+REACT DOM
+
+¿Qué es React DOM?
+
+React DOM es una biblioteca que funciona junto con React y que se encarga de mostrar los componentes dentro de una página web.
+
+React por sí solo se encarga de crear los componentes, manejar los estados y decidir qué debe cambiar.
+
+React DOM es el que toma esos componentes y los convierte en elementos HTML reales que el navegador puede mostrar.
+
+Por ejemplo, React DOM se utiliza para:
+- Mostrar la aplicación dentro de un elemento del archivo index.html.
+- Actualizar la pantalla cuando cambia un estado.
+- Mostrar un componente fuera de su lugar normal, como una ventana modal.
+
+
+¿Cuáles son sus características?
+
+- Es la conexión entre React y el navegador.
+- Se instala como un paquete aparte llamado react-dom.
+- Utiliza la función createRoot para indicar en qué parte de la página se va a mostrar la aplicación.
+- Utiliza un DOM virtual, que es una copia de la página guardada en memoria.
+- Cuando cambia algo, compara el DOM virtual con el anterior y actualiza solamente las partes que cambiaron.
+- Permite utilizar portales con la función createPortal para mostrar un componente en otro lugar de la página.
+
+
+¿Para qué sirve?
+
+React DOM sirve para que los componentes que creamos con React se puedan ver en el navegador.
+
+Gracias a React DOM no es necesario modificar el HTML de forma manual, ya que la pantalla se actualiza automáticamente cada vez que cambia la información.
+
+Además, como solo actualiza las partes que cambiaron, las páginas funcionan de forma más rápida.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el archivo main.jsx se utiliza ReactDOM.createRoot para indicar que la aplicación se va a mostrar dentro del elemento con id "root" del archivo index.html.
+
+Luego, con la función render, se muestra el componente App.
+
+En el componente EjemploReactDOM se utiliza un estado llamado "abierto" para saber si la ventana modal está abierta o cerrada.
+
+Cuando el usuario presiona el botón "Abrir ventana", el estado cambia y se muestra la ventana.
+
+La ventana se crea con createPortal. Esto hace que React DOM la muestre directamente dentro del body de la página y no dentro de la tarjeta donde está el botón.
+
+También hay un texto que muestra la hora actual y que se actualiza cada vez que se presiona el botón "Actualizar hora".
+
+Si se observa la página, solamente cambia el texto de la hora, mostrando que React DOM actualiza únicamente la parte que cambió.

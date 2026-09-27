@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Facturas')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Facturas</h1>
+              <p class="mb-0">Facturas de compra a proveedores y de venta a clientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>N° factura</th>
+              <th>Tipo</th>
+              <th>Fecha</th>
+              <th>Proveedor / Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="f : ${facturas}">
+              <td class="fw-semibold" th:text="${f.nroFactura}"></td>
+              <td>
+                <span class="badge" th:classappend="${f.tipo == 'Compra'} ? 'bg-primary-subtle text-primary' : 'bg-info-subtle text-info'" th:text="${f.tipo}"></span>
+              </td>
+              <td th:text="${#temporals.format(f.fecha, 'dd/MM/yyyy')}"></td>
+              <td th:text="${f.contraparte}"></td>
+              <td th:text="${'$' + #numbers.formatDecimal(f.total, 1, 'POINT', 2, 'COMMA')}"></td>
+              <td th:text="${f.estado}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(facturas)}">
+              <td colspan="6" class="text-center text-secondary py-4">No hay facturas registradas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

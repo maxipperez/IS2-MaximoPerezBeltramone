@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Catálogo')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+              <h1 class="fs-3 mb-1">TechSolutions Hub</h1>
+              <p class="mb-0">Catálogo de productos disponibles para la venta</p>
+            </div>
+            <div>
+              <a th:href="@{/ventas/nuevo}" class="btn btn-primary"><i class="ti ti-shopping-cart me-1"></i>Ver orden</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <form class="card card-body mb-4" th:action="@{/}" method="get">
+        <div class="d-flex gap-2 flex-wrap">
+          <input type="text" name="texto" th:value="${texto}" class="form-control" placeholder="Buscar productos..." style="max-width: 280px;">
+          <select name="categoriaId" class="form-select" style="max-width: 220px;">
+            <option value="">Todas las categorías</option>
+            <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}" th:selected="${c.id == categoriaId}"></option>
+          </select>
+          <button class="btn btn-outline-secondary"><i class="ti ti-filter"></i> Filtrar</button>
+          <a th:href="@{/}" class="btn btn-light">Limpiar</a>
+        </div>
+      </form>
+
+      <div th:if="${sinResultados}" class="alert alert-warning" th:text="${sinResultados}"></div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-3" th:each="p : ${productos}">
+          <div class="card h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-4">
+                <span class="icon-shape icon-lg bg-primary-subtle text-primary rounded-3 d-inline-flex align-items-center justify-content-center" style="width:3rem;height:3rem;">
+                  <i class="ti ti-device-laptop fs-3"></i>
+                </span>
+                <span th:switch="${p.estadoStock}">
+                  <span th:case="'Óptimo'" class="badge bg-success-subtle text-success">EN STOCK</span>
+                  <span th:case="'Stock bajo'" class="badge bg-warning-subtle text-warning">STOCK BAJO</span>
+                  <span th:case="*" class="badge bg-danger-subtle text-danger">SIN STOCK</span>
+                </span>
+              </div>
+              <small class="text-uppercase text-secondary" th:text="${p.categoriaNombre != null ? p.categoriaNombre : 'Sin categoría'}"></small>
+              <h2 class="h5 mb-1" th:text="${p.nombre}"></h2>
+              <p class="small text-secondary flex-grow-1" th:text="${p.descripcion}"></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fs-4 fw-semibold text-primary" th:text="${'$' + #numbers.formatDecimal(p.precioUnitario, 1, 'POINT', 2, 'COMMA')}"></span>
+                <a th:if="${p.stock > 0}" th:href="@{/ventas/nuevo(productoId=${p.id})}" class="btn btn-outline-primary btn-sm" title="Vender">
+                  <i class="ti ti-shopping-cart-plus fs-5"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

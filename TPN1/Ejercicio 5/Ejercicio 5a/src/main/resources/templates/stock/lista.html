@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Stock')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Stock <span class="badge bg-light text-dark fs-6 align-middle" th:text="|${#lists.size(stocks)} Elementos|"></span></h1>
+              <p class="mb-0">Gestionar niveles de inventario y capacidad de todos los productos</p>
+            </div>
+            <div class="d-flex gap-2">
+              <a th:href="@{/ordenes/nuevo}" class="btn btn-outline-primary"><i class="ti ti-shopping-cart"></i> Reponer con orden de compra</a>
+              <a th:href="@{/productos/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>ID</th>
+              <th>Producto</th>
+              <th>Stock</th>
+              <th>Stock máx.</th>
+              <th>Estado</th>
+              <th>Última actualización</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="s, it : ${stocks}">
+              <td th:text="${'P' + #numbers.formatInteger(it.count, 3)}"></td>
+              <td th:text="${s.productoNombre}"></td>
+              <td th:text="${s.cantidad}" th:classappend="${s.estado != 'Óptimo'} ? 'text-danger fw-semibold'"></td>
+              <td th:text="${s.stockMaximo}"></td>
+              <td>
+                <span class="badge"
+                  th:classappend="${s.estado == 'Óptimo'} ? 'bg-success-subtle text-success' : (${s.estado == 'Stock bajo'} ? 'bg-warning-subtle text-warning' : 'bg-danger-subtle text-danger')"
+                  th:text="${s.estado}"></span>
+              </td>
+              <td th:text="${#temporals.format(s.actualizacion, 'dd/MM/yyyy HH:mm')}"></td>
+              <td>
+                <a th:href="@{/stock/{id}/editar(id=${s.productoId})}" title="Editar"><i class="ti ti-edit"></i></a>
+                <form class="d-inline" th:action="@{/productos/{id}/eliminar(id=${s.productoId})}" method="post"
+                  onsubmit="return confirm('¿Eliminar el producto del stock?');">
+                  <button class="btn btn-link link-danger p-0 ms-2" title="Eliminar"><i class="ti ti-trash"></i></button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="border-bottom-0" th:text="|Mostrando 1 a ${#lists.size(stocks)} de ${#lists.size(stocks)} entradas|"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

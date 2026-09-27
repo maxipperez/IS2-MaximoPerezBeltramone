@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Ventas')}"></head>
+
+<body>
+  <th:block th:replace="~{fragments/layout :: navegacion}"></th:block>
+
+  <main id="content" class="content py-10">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h1 class="fs-3 mb-1">Ventas</h1>
+              <p class="mb-0">Comprobantes de venta emitidos a clientes</p>
+            </div>
+            <div>
+              <a th:href="@{/ventas/nuevo}" class="btn btn-primary"><i class="ti ti-plus"></i> Nueva venta</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div th:replace="~{fragments/layout :: alertas}"></div>
+
+      <div class="card table-responsive">
+        <table class="table mb-0 text-nowrap table-hover">
+          <thead class="table-light border-light">
+            <tr>
+              <th>N° factura</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="align-middle" th:each="v : ${ventas}">
+              <td class="fw-semibold" th:text="${v.nroFactura}"></td>
+              <td th:text="${#temporals.format(v.fecha, 'dd/MM/yyyy')}"></td>
+              <td th:text="${v.clienteNombre}"></td>
+              <td th:text="${'$' + #numbers.formatDecimal(v.total, 1, 'POINT', 2, 'COMMA')}"></td>
+              <td>
+                <span class="badge" th:classappend="${v.emitida} ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'" th:text="${v.estado}"></span>
+              </td>
+              <td><a th:href="@{/ventas/{id}(id=${v.id})}" title="Ver comprobante"><i class="ti ti-eye"></i></a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(ventas)}">
+              <td colspan="6" class="text-center text-secondary py-4">No hay ventas registradas</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div th:replace="~{fragments/layout :: pie}"></div>
+    </div>
+  </main>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>
