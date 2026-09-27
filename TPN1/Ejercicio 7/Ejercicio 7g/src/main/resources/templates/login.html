@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Ingresar')}"></head>
+
+<body>
+  <div class="login-wrapper">
+    <div class="login-bg-shape login-bg-shape-1"></div>
+    <div class="login-bg-shape login-bg-shape-2"></div>
+
+    <div class="login-card">
+      <span class="login-brand">
+        <i class="bi bi-trophy-fill"></i>
+        <span>Club Deportivo</span>
+      </span>
+
+      <p class="login-subtitle">Ingresá con tu usuario de recepción</p>
+
+      <div th:if="${param.error}" class="alert-custom alert-custom-danger mb-3">
+        <div class="alert-custom-content">Usuario o contraseña incorrectos.</div>
+      </div>
+      <div th:if="${param.logout}" class="alert-custom alert-custom-info mb-3">
+        <div class="alert-custom-content">Cerraste sesión correctamente.</div>
+      </div>
+
+      <form th:action="@{/login}" method="post" id="loginForm" class="needs-validation" novalidate>
+        <div class="login-form-group">
+          <label for="mail" class="login-form-label">Correo</label>
+          <div class="login-input-group">
+            <i class="bi bi-envelope input-icon"></i>
+            <input type="email" id="mail" name="mail" class="login-input" placeholder="usuario@club.com" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="password" class="login-form-label">Contraseña</label>
+          <div class="login-input-group">
+            <i class="bi bi-shield-lock input-icon"></i>
+            <input type="password" id="password" name="clave" class="login-input login-input-password" placeholder="••••••••" required>
+            <button type="button" class="password-toggle-btn" id="toggle-password" aria-label="Mostrar contraseña">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">
+          <span>Ingresar</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script th:src="@{/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/assets/js/auth.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+JEST Y REACT TESTING LIBRARY
+
+¿Qué es Jest?
+
+Jest es una herramienta creada por Meta (Facebook) que permite escribir y ejecutar pruebas automáticas en proyectos de JavaScript.
+
+Una prueba es un código que verifica que otra parte del programa funcione correctamente. Por ejemplo, que una función devuelva el resultado esperado o que un botón haga lo que tiene que hacer.
+
+Jest se encarga de buscar los archivos de prueba, ejecutarlos y mostrar cuáles pasaron y cuáles fallaron.
+
+
+¿Qué es React Testing Library?
+
+React Testing Library es una biblioteca que permite probar componentes de React de la misma forma en que los usaría una persona.
+
+En lugar de revisar el código interno del componente, se busca lo que el usuario ve en pantalla (textos, botones, campos) y se simulan sus acciones, como hacer clic o escribir.
+
+Se utiliza junto con Jest: React Testing Library muestra el componente y Jest ejecuta la prueba y verifica los resultados.
+
+
+¿Cuáles son sus características?
+
+Jest:
+- Es fácil de instalar y de configurar.
+- Las pruebas se escriben con las funciones test (o it) y expect.
+- Muestra un resumen claro con las pruebas que pasaron y las que fallaron.
+- Permite simular funciones y datos (mocks).
+- Puede ejecutar las pruebas cada vez que se guarda un archivo.
+
+React Testing Library:
+- Muestra el componente con la función render.
+- Busca elementos con screen, por ejemplo por su texto o por su rol (botón, campo de texto).
+- Simula acciones del usuario con user-event (clics, escritura).
+- Se complementa con jest-dom, que agrega verificaciones como toBeInTheDocument o toBeDisabled.
+- Incentiva probar el comportamiento del componente y no su código interno.
+
+
+¿Para qué sirven?
+
+Jest y React Testing Library sirven para comprobar de forma automática que los componentes de una aplicación funcionan bien.
+
+Gracias a las pruebas:
+- Se detectan errores antes de que lleguen al usuario.
+- Se puede modificar el código con más seguridad, porque si algo se rompe una prueba lo avisa.
+- No es necesario probar todo a mano cada vez que se hace un cambio.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo hay un componente llamado Contador, con un número y tres botones: "Sumar", "Restar" y "Reiniciar". El botón "Restar" se desactiva cuando el contador está en 0, para que no haya números negativos.
+
+En el archivo EjemploContador.test.jsx se escriben las pruebas:
+
+La primera prueba utiliza render para mostrar el Contador y verifica con expect que en pantalla aparezca "Valor: 0".
+
+La segunda prueba simula dos clics en el botón "Sumar" con user-event y verifica que el valor cambie a 2.
+
+La tercera prueba verifica que el botón "Restar" esté desactivado al comienzo con toBeDisabled.
+
+La cuarta prueba suma, luego presiona "Reiniciar" y verifica que el valor vuelva a 0.
+
+Para buscar los botones se utiliza screen.getByRole, que encuentra el botón por su texto, igual que lo haría una persona al mirar la pantalla.
+
+Las pruebas se ejecutan con el comando npm test y Jest muestra en la consola si cada una pasó o falló.

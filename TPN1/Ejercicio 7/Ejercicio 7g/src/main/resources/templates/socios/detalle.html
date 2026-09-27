@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Ficha del socio')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('socios')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado(|${socio.apellido}, ${socio.nombre}|, |Socio N° ${socio.nroSocio} · ${socio.grupo}|)}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="row g-4 mb-4">
+      <div class="col-lg-4">
+        <div class="card border-light shadow-sm p-4 h-100 text-center">
+          <img th:src="@{/fotos/{id}(id=${socio.id})}" alt="Foto del socio" class="rounded-circle mx-auto mb-3" style="width: 140px; height: 140px; object-fit: cover;">
+          <h5 class="mb-1" th:text="|${socio.nombre} ${socio.apellido}|"></h5>
+          <p class="mb-1" th:text="|DNI ${socio.dni}|"></p>
+          <p class="mb-3" th:text="|Alta: ${#temporals.format(socio.fechaAlta, 'dd/MM/yyyy')}|"></p>
+          <div class="d-flex gap-2 justify-content-center">
+            <a th:href="@{/socios/{id}/editar(id=${socio.id})}" class="btn-custom btn-custom-light">Editar</a>
+            <a th:href="@{/pagos(grupoId=${socio.grupoId})}" class="btn-custom btn-custom-primary">Registrar pago</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card border-light shadow-sm p-4 h-100">
+          <h5 class="card-title mb-3">Agregar familiar</h5>
+          <form th:action="@{/socios/{id}/familiares(id=${socio.id})}" th:object="${familiar}" method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="nombre" class="form-label-custom">Nombre</label>
+                <input type="text" id="nombre" class="form-control-custom" th:field="*{nombre}" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="apellido" class="form-label-custom">Apellido</label>
+                <input type="text" id="apellido" class="form-control-custom" th:field="*{apellido}" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="dni" class="form-label-custom">DNI</label>
+                <input type="text" id="dni" class="form-control-custom" th:field="*{dni}" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="parentesco" class="form-label-custom">Parentesco</label>
+                <input type="text" id="parentesco" class="form-control-custom" th:field="*{parentesco}" placeholder="Ej: Hijo" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="foto" class="form-label-custom">Foto del rostro</label>
+                <input type="file" id="foto" name="foto" class="form-control-custom" accept="image/png,image/jpeg" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-custom btn-custom-primary"><i class="bi bi-person-plus"></i> Agregar al grupo</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card-custom mb-4">
+      <div class="table-header-control">
+        <h5 class="mb-0">Grupo familiar</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Familiar</th>
+              <th>DNI</th>
+              <th>Parentesco</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="f : ${familiares}">
+              <td>
+                <div class="table-user-cell">
+                  <img th:src="@{/fotos/{id}(id=${f.id})}" alt="Foto" class="table-user-avatar">
+                  <div class="table-user-name" th:text="|${f.apellido}, ${f.nombre}|"></div>
+                </div>
+              </td>
+              <td th:text="${f.dni}"></td>
+              <td th:text="${f.parentesco}"></td>
+              <td>
+                <div class="d-flex justify-content-center">
+                  <form th:action="@{/socios/{id}/familiares/{fid}/quitar(id=${socio.id}, fid=${f.id})}" method="post"
+                    onsubmit="return confirm('¿Quitar el familiar del grupo?');">
+                    <button type="submit" class="table-btn-action delete" title="Quitar del grupo"><i class="bi bi-person-dash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(familiares)}">
+              <td colspan="4" class="text-center">El grupo no tiene familiares.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Cuotas pagadas por la familia</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Período</th>
+              <th>Fecha de pago</th>
+              <th>Medio de pago</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="p : ${pagos}">
+              <td class="table-order-id" th:text="${p.periodo}"></td>
+              <td th:text="${#temporals.format(p.fechaPago, 'dd/MM/yyyy')}"></td>
+              <td th:text="${p.medioPago.etiqueta}"></td>
+              <td class="table-amount" th:text="${'$' + #numbers.formatDecimal(p.monto, 1, 'POINT', 2, 'COMMA')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(pagos)}">
+              <td colspan="4" class="text-center">La familia no registra pagos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>
