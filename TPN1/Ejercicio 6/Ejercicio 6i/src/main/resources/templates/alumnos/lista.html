@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Alumnos')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('alumnos')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Alumnos', 'Alumnos del colegio con su grado y aula')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Listado de alumnos</h5>
+        <div class="table-filter-group">
+          <a th:href="@{/alumnos/nuevo}" class="btn-custom btn-custom-primary"><i class="bi bi-plus-lg"></i> Nuevo alumno</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Apellido y nombre</th>
+              <th>DNI</th>
+              <th>Grado y aula</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="a : ${alumnos}">
+              <td class="table-user-name" th:text="|${a.apellido}, ${a.nombre}|"></td>
+              <td th:text="${a.dni}"></td>
+              <td th:text="${a.aula}"></td>
+              <td>
+                <div class="d-flex justify-content-center gap-1">
+                  <a th:href="@{/notas(alumnoId=${a.id})}" class="table-btn-action" title="Ver notas"><i class="bi bi-eye"></i></a>
+                  <a th:href="@{/alumnos/{id}/editar(id=${a.id})}" class="table-btn-action" title="Editar"><i class="bi bi-pencil"></i></a>
+                  <form th:action="@{/alumnos/{id}/eliminar(id=${a.id})}" method="post" onsubmit="return confirm('¿Eliminar el alumno?');">
+                    <button type="submit" class="table-btn-action delete" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(alumnos)}">
+              <td colspan="4" class="text-center">No hay alumnos cargados.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

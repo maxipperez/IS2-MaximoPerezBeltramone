@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Aula')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('aulas')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado(${aula.id == null ? 'Nueva aula' : 'Editar aula'}, 'Completá los datos del aula')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="card border-light shadow-sm p-4">
+      <form th:action="@{/aulas}" th:object="${aula}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="grado" class="form-label-custom">Grado</label>
+            <input type="text" id="grado" class="form-control-custom" th:field="*{grado}" placeholder="Ej: 5to" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="nombre" class="form-label-custom">Aula</label>
+            <input type="text" id="nombre" class="form-control-custom" th:field="*{nombre}" placeholder="Ej: Aula A" required>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn-custom btn-custom-primary">Guardar</button>
+          <a th:href="@{/aulas}" class="btn-custom btn-custom-light">Cancelar</a>
+        </div>
+      </form>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

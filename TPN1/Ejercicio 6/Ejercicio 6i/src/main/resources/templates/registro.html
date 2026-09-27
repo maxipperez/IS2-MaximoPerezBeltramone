@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Registro')}"></head>
+
+<body>
+  <div class="login-wrapper">
+    <div class="login-bg-shape login-bg-shape-1"></div>
+    <div class="login-bg-shape login-bg-shape-2"></div>
+
+    <div class="login-card">
+      <span class="login-brand">
+        <i class="bi bi-mortarboard-fill"></i>
+        <span>Sistema Escolar</span>
+      </span>
+
+      <p class="login-subtitle">Registro de docentes</p>
+
+      <div th:if="${error}" class="alert-custom alert-custom-danger mb-3">
+        <div class="alert-custom-content" th:text="${error}"></div>
+      </div>
+
+      <form th:action="@{/registro}" th:object="${docente}" method="post">
+        <div class="login-form-group">
+          <label for="nombre" class="login-form-label">Nombre</label>
+          <div class="login-input-group">
+            <i class="bi bi-person input-icon"></i>
+            <input type="text" id="nombre" class="login-input" th:field="*{nombre}" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="apellido" class="login-form-label">Apellido</label>
+          <div class="login-input-group">
+            <i class="bi bi-person input-icon"></i>
+            <input type="text" id="apellido" class="login-input" th:field="*{apellido}" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="sexo" class="login-form-label">Sexo</label>
+          <select id="sexo" class="form-select-custom" th:field="*{sexo}" required>
+            <option value="">Seleccioná una opción</option>
+            <option th:each="s : ${sexos}" th:value="${s}" th:text="${s}"></option>
+          </select>
+        </div>
+
+        <div class="login-form-group">
+          <label for="fechaNacimiento" class="login-form-label">Fecha de nacimiento</label>
+          <div class="login-input-group">
+            <i class="bi bi-calendar input-icon"></i>
+            <input type="date" id="fechaNacimiento" class="login-input" th:field="*{fechaNacimiento}" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="mail" class="login-form-label">Correo personal (será tu usuario)</label>
+          <div class="login-input-group">
+            <i class="bi bi-envelope input-icon"></i>
+            <input type="email" id="mail" class="login-input" th:field="*{mail}" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="clave" class="login-form-label">Contraseña</label>
+          <div class="login-input-group">
+            <i class="bi bi-shield-lock input-icon"></i>
+            <input type="password" id="clave" class="login-input" th:field="*{clave}" minlength="6" required>
+          </div>
+        </div>
+
+        <div class="login-form-group">
+          <label for="claveRepetida" class="login-form-label">Repetir contraseña</label>
+          <div class="login-input-group">
+            <i class="bi bi-shield-lock input-icon"></i>
+            <input type="password" id="claveRepetida" class="login-input" th:field="*{claveRepetida}" minlength="6" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">
+          <span>Registrarme</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+
+      <p class="login-footer-text">
+        ¿Ya tenés cuenta? <a th:href="@{/login}">Ingresá</a>
+      </p>
+    </div>
+  </div>
+
+  <script th:src="@{/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

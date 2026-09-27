@@ -1,0 +1,61 @@
+CONTEXTO EN REACT
+
+¿Qué es el contexto en React?
+
+El contexto es una forma de compartir información entre varios componentes sin tener que enviarla manualmente de uno a otro.
+
+Normalmente la información se pasa de un componente padre a un hijo mediante props. Si un componente que está muy abajo necesita un dato, hay que pasarlo por todos los componentes intermedios, aunque ellos no lo usen.
+
+Con el contexto, la información se guarda en un lugar común y cualquier componente que esté dentro puede utilizarla directamente.
+
+Por ejemplo, se puede utilizar para compartir:
+- El usuario que inició sesión.
+- El tema de la página (claro u oscuro).
+- El idioma de la aplicación.
+- Los productos de un carrito de compras.
+
+
+¿Cuáles son sus características?
+
+- Se crea con la función createContext.
+- Se utiliza un Provider para indicar qué información se comparte y a qué componentes.
+- Los componentes obtienen la información con el Hook useContext.
+- Cuando cambia la información del contexto, todos los componentes que la utilizan se actualizan.
+- Evita tener que pasar props por muchos componentes.
+
+
+¿Para qué sirve?
+
+El contexto sirve para compartir información que necesitan muchos componentes de la aplicación.
+
+Gracias al contexto el código queda más ordenado, ya que los componentes intermedios no tienen que recibir ni enviar datos que no utilizan.
+
+
+¿Qué diferencia existe con los props?
+
+Props:
+- Envían información de un componente padre a un componente hijo.
+- La información se pasa de forma directa, componente por componente.
+- Son ideales para datos que usa solamente el componente que los recibe.
+
+Contexto:
+- Comparte información con todos los componentes que están dentro del Provider.
+- No es necesario pasar la información por los componentes intermedios.
+- Es ideal para datos que se usan en muchas partes de la aplicación.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo se crea un contexto llamado TemaContexto con createContext.
+
+El componente EjemploContexto tiene un estado llamado "tema", que puede ser "claro" u "oscuro".
+
+Ese estado se comparte con TemaContexto.Provider, junto con la función cambiarTema.
+
+Dentro del Provider está el componente Panel, que no recibe ninguna prop. Panel muestra el componente Tarjeta y el componente BotonTema.
+
+Tarjeta y BotonTema utilizan useContext para obtener el tema directamente del contexto, sin que Panel tenga que pasárselo.
+
+Cuando el usuario presiona el botón "Cambiar tema", se modifica el estado y la tarjeta cambia de color automáticamente.
+
+Además, al final del ejemplo hay un componente Saludo que recibe el nombre mediante props, para comparar las dos formas de pasar información.

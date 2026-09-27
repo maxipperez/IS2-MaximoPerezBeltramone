@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head(titulo)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${titulo} + ' - Sistema Escolar'">Sistema Escolar</title>
+  <link rel="icon" type="image/png" th:href="@{/assets/images/favicon.ico}">
+  <link rel="stylesheet" th:href="@{/assets/libs/bootstrap/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/assets/libs/bootstrap-icons/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+</head>
+
+<body>
+  <div th:fragment="sidebar(activo)" class="sidebar-wrapper" id="sidebar">
+    <a th:href="@{/}" class="sidebar-brand">
+      <i class="bi bi-mortarboard-fill"></i>
+      <span>Sistema Escolar</span>
+    </a>
+
+    <div class="flex-grow-1 overflow-y-auto">
+      <div class="sidebar-menu-section">
+        <div class="sidebar-menu-title">Menú</div>
+        <ul class="sidebar-menu-list">
+          <li class="sidebar-menu-item">
+            <a th:href="@{/}" class="sidebar-menu-link" th:classappend="${activo == 'inicio'} ? 'active'">
+              <i class="bi bi-grid-fill"></i><span>Inicio</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-menu-section">
+        <div class="sidebar-menu-title">Colegio</div>
+        <ul class="sidebar-menu-list">
+          <li class="sidebar-menu-item">
+            <a th:href="@{/alumnos}" class="sidebar-menu-link" th:classappend="${activo == 'alumnos'} ? 'active'">
+              <i class="bi bi-people-fill"></i><span>Alumnos</span>
+            </a>
+          </li>
+          <li class="sidebar-menu-item">
+            <a th:href="@{/aulas}" class="sidebar-menu-link" th:classappend="${activo == 'aulas'} ? 'active'">
+              <i class="bi bi-door-open-fill"></i><span>Aulas</span>
+            </a>
+          </li>
+          <li class="sidebar-menu-item">
+            <a th:href="@{/materias}" class="sidebar-menu-link" th:classappend="${activo == 'materias'} ? 'active'">
+              <i class="bi bi-book-fill"></i><span>Materias</span>
+            </a>
+          </li>
+          <li class="sidebar-menu-item">
+            <a th:href="@{/notas}" class="sidebar-menu-link" th:classappend="${activo == 'notas'} ? 'active'">
+              <i class="bi bi-journal-check"></i><span>Notas</span>
+            </a>
+          </li>
+          <li class="sidebar-menu-item">
+            <a th:href="@{/docentes}" class="sidebar-menu-link" th:classappend="${activo == 'docentes'} ? 'active'">
+              <i class="bi bi-person-badge-fill"></i><span>Docentes</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-menu-section">
+        <div class="sidebar-menu-title">Cuenta</div>
+        <ul class="sidebar-menu-list">
+          <li class="sidebar-menu-item">
+            <a th:href="@{/cambiar-clave}" class="sidebar-menu-link" th:classappend="${activo == 'clave'} ? 'active'">
+              <i class="bi bi-key-fill"></i><span>Cambiar contraseña</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sidebar-profile">
+      <img th:src="@{/assets/images/avatar.png}" alt="Docente" class="sidebar-profile-img">
+      <div class="sidebar-profile-info">
+        <div class="sidebar-profile-name">Docente</div>
+        <div class="sidebar-profile-email" sec:authentication="name">docente@colegio.com</div>
+      </div>
+    </div>
+  </div>
+
+  <header th:fragment="navbar" class="navbar-custom">
+    <div class="navbar-left">
+      <button class="btn-desktop-toggle d-none d-xl-flex align-items-center justify-content-center me-3"
+        id="desktop-sidebar-toggle" aria-label="Minimizar menú">
+        <i class="bi bi-chevron-bar-left"></i>
+      </button>
+      <button class="sidebar-toggle-btn me-2" id="sidebar-toggle" aria-label="Abrir menú">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <div class="dropdown ms-2">
+        <button class="btn-quick-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-plus-lg"></i>
+          <span>Nuevo</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-quick-action">
+          <li class="dropdown-header">Accesos rápidos</li>
+          <li><a class="dropdown-item" th:href="@{/alumnos/nuevo}"><i class="bi bi-person-plus"></i> Nuevo alumno</a></li>
+          <li><a class="dropdown-item" th:href="@{/notas/nuevo}"><i class="bi bi-journal-plus"></i> Nueva nota</a></li>
+          <li><a class="dropdown-item" th:href="@{/materias/nuevo}"><i class="bi bi-book"></i> Nueva materia</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="navbar-actions">
+      <div class="dropdown ms-2">
+        <button class="navbar-profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img th:src="@{/assets/images/avatar.png}" alt="Perfil" class="navbar-profile-img">
+          <span class="navbar-profile-name d-none d-md-inline" sec:authentication="name">Docente</span>
+          <i class="bi bi-chevron-down navbar-profile-caret"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-profile">
+          <li class="dropdown-header">¡Bienvenido!</li>
+          <li><a class="dropdown-item" th:href="@{/cambiar-clave}"><i class="bi bi-key"></i> Cambiar contraseña</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <form th:action="@{/logout}" method="post">
+              <button class="dropdown-item text-danger" type="submit"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <div th:fragment="encabezado(titulo, subtitulo)" class="page-header">
+    <div>
+      <h1 class="page-title" th:text="${titulo}"></h1>
+      <p class="page-subtitle" th:text="${subtitulo}"></p>
+    </div>
+  </div>
+
+  <th:block th:fragment="alertas">
+    <div th:if="${exito}" class="alert-custom alert-custom-success mb-4">
+      <i class="bi bi-check-circle-fill alert-custom-icon"></i>
+      <div class="alert-custom-content" th:text="${exito}"></div>
+    </div>
+    <div th:if="${error}" class="alert-custom alert-custom-danger mb-4">
+      <i class="bi bi-exclamation-triangle-fill alert-custom-icon"></i>
+      <div class="alert-custom-content" th:text="${error}"></div>
+    </div>
+  </th:block>
+
+  <footer th:fragment="footer" class="footer-custom">
+    <div class="footer-left">
+      <span class="footer-logo"><i class="bi bi-mortarboard-fill"></i> Sistema Escolar</span>
+      <span class="footer-separator">|</span>
+      <span class="footer-copy">Plantilla <a href="https://sparkadminpro.gumroad.com/" target="_blank">Spark Admin</a> • Distribuida por <a
+          href="https://www.themewagon.com/" target="_blank">ThemeWagon</a></span>
+    </div>
+  </footer>
+
+  <th:block th:fragment="scripts">
+    <script th:src="@{/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/dashboard.js}"></script>
+  </th:block>
+</body>
+
+</html>

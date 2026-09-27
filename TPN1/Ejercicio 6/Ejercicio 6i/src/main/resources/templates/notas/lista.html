@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Notas')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('notas')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Notas', 'Notas de los alumnos por materia')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <form th:action="@{/notas}" method="get" class="d-flex gap-2">
+          <select name="alumnoId" class="form-select-custom">
+            <option value="">Todos los alumnos</option>
+            <option th:each="a : ${alumnos}" th:value="${a.id}" th:text="|${a.apellido}, ${a.nombre}|"
+              th:selected="${a.id == alumnoId}"></option>
+          </select>
+          <button type="submit" class="btn-table-action"><i class="bi bi-funnel"></i> Filtrar</button>
+        </form>
+        <div class="table-filter-group">
+          <a th:href="@{/notas/nuevo}" class="btn-custom btn-custom-primary"><i class="bi bi-plus-lg"></i> Nueva nota</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Alumno</th>
+              <th>Materia</th>
+              <th>Fecha</th>
+              <th>Nota</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="n : ${notas}">
+              <td class="table-user-name" th:text="${n.alumno}"></td>
+              <td th:text="${n.materia}"></td>
+              <td th:text="${#temporals.format(n.fecha, 'dd/MM/yyyy')}"></td>
+              <td>
+                <span class="badge-table" th:classappend="${n.valor >= 6} ? 'success' : 'failed'" th:text="${n.valor}"></span>
+              </td>
+              <td>
+                <div class="d-flex justify-content-center gap-1">
+                  <a th:href="@{/notas/{id}/historial(id=${n.id})}" class="table-btn-action" title="Historial"><i class="bi bi-clock-history"></i></a>
+                  <a th:href="@{/notas/{id}/editar(id=${n.id})}" class="table-btn-action" title="Editar"><i class="bi bi-pencil"></i></a>
+                  <form th:action="@{/notas/{id}/eliminar(id=${n.id})}" method="post" onsubmit="return confirm('¿Eliminar la nota?');">
+                    <button type="submit" class="table-btn-action delete" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(notas)}">
+              <td colspan="5" class="text-center">No hay notas cargadas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

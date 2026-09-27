@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Aulas')}"></head>
+
+<body>
+  <div th:replace="~{fragments/layout :: sidebar('aulas')}"></div>
+
+  <div class="main-wrapper">
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: encabezado('Aulas', 'Aulas de cursado con su grado')}"></div>
+    <th:block th:replace="~{fragments/layout :: alertas}"></th:block>
+
+    <div class="table-card-custom">
+      <div class="table-header-control">
+        <h5 class="mb-0">Listado de aulas</h5>
+        <div class="table-filter-group">
+          <a th:href="@{/aulas/nuevo}" class="btn-custom btn-custom-primary"><i class="bi bi-plus-lg"></i> Nueva aula</a>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Grado</th>
+              <th>Aula</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="a : ${aulas}">
+              <td th:text="${a.grado}"></td>
+              <td th:text="${a.nombre}"></td>
+              <td>
+                <div class="d-flex justify-content-center gap-1">
+                  <a th:href="@{/aulas/{id}/editar(id=${a.id})}" class="table-btn-action" title="Editar"><i class="bi bi-pencil"></i></a>
+                  <form th:action="@{/aulas/{id}/eliminar(id=${a.id})}" method="post" onsubmit="return confirm('¿Eliminar el aula?');">
+                    <button type="submit" class="table-btn-action delete" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(aulas)}">
+              <td colspan="3" class="text-center">No hay aulas cargadas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+  </div>
+
+  <th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+
+</html>

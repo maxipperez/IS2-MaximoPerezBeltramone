@@ -1,0 +1,54 @@
+HOOKS DE RENDIMIENTO EN REACT
+
+¿Qué son los Hooks de rendimiento?
+
+Los Hooks de rendimiento son Hooks que ayudan a que una aplicación de React funcione más rápido.
+
+Cada vez que cambia un estado, React vuelve a ejecutar el componente. Esto hace que se repitan cálculos y que se creen otra vez las funciones, aunque no haya cambiado nada importante.
+
+Los Hooks de rendimiento permiten guardar un resultado o una función para no tener que repetirlos de forma innecesaria.
+
+Los principales son:
+
+useMemo:
+Guarda el resultado de un cálculo y solo lo vuelve a calcular cuando cambia la información que utiliza.
+
+useCallback:
+Guarda una función para que no se cree nuevamente cada vez que el componente se actualiza.
+
+También se suele utilizar junto con memo, que no es un Hook pero permite que un componente no se vuelva a mostrar si sus props no cambiaron.
+
+
+¿Cuáles son sus características?
+
+- Son funciones proporcionadas por React.
+- Sus nombres comienzan con la palabra "use".
+- Reciben una lista de dependencias, que indica cuándo se debe volver a calcular el resultado o crear la función.
+- Evitan cálculos repetidos que no son necesarios.
+- Se utilizan principalmente cuando hay cálculos pesados o componentes que se actualizan muchas veces.
+- No es necesario usarlos en todos los componentes, solo cuando realmente mejoran el rendimiento.
+
+
+¿Para qué sirven?
+
+Los Hooks de rendimiento sirven para que la aplicación responda más rápido y no realice trabajo de más.
+
+Por ejemplo, se pueden utilizar para:
+- No recalcular un total cada vez que el usuario escribe algo que no tiene relación.
+- Filtrar una lista grande solo cuando cambia el texto de búsqueda.
+- Evitar que un componente hijo se vuelva a mostrar si no cambió nada.
+
+
+EXPLICACIÓN DEL EJEMPLO
+
+En el ejemplo hay una lista de números y un contador que no tiene relación con esa lista.
+
+Con useMemo se calcula la suma de los números. Esta suma solo se vuelve a calcular cuando se agrega un número nuevo a la lista, y no cuando cambia el contador.
+
+En la consola del navegador se puede ver el mensaje "Calculando la suma..." solamente cuando se agrega un número.
+
+Con useCallback se guarda la función agregarNumero. Esta función se envía al componente Boton.
+
+El componente Boton está envuelto con memo, por lo que solo se vuelve a mostrar si cambian sus props.
+
+Como la función está guardada con useCallback, al presionar "Sumar al contador" el componente Boton no se vuelve a mostrar. Esto también se puede comprobar en la consola con el mensaje "Se mostró el botón".
